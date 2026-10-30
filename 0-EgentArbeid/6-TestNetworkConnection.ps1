@@ -1,10 +1,8 @@
 $errorsInARow = 0
-#Set to wifi or ethernet
-
 
 #henter WPF windows sitt framwork inn til koden
 Add-Type -AssemblyName PresentationFramework
-$cardToTest = ([System.Windows.MessageBox]::Show("Are you using Ethernet(Cabeled)", "Chose card", "YesNo", "Question") -eq 6 ? "ethernet": "wifi")
+$cardToTest = [System.Windows.MessageBox]::Show("Are you using Ethernet(Cabeled)", "Chose card", "YesNo", "Question") -eq 6 ? "ethernet": "wifi"
 
 while ($true) {
     "`n------------------------------------------------`n"
