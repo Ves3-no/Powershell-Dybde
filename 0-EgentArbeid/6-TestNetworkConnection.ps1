@@ -49,7 +49,6 @@ while ($true) {
             "`n------------------------------------------------`n"
             Start-Sleep -Seconds 10
             if($errorsInARow -gt 3){
-                Add-Type -AssemblyName PresentationFramework
                 [System.Windows.MessageBox]::Show("Nettverkskortet har hatt mange problemer på rad(Du bør skjekke opp i det)", "Error", "OK", "Error")
             }
         }

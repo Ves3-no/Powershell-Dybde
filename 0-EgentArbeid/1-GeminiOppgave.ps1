@@ -12,7 +12,7 @@ $txtFile = Join-Path $path "logs.txt"
 $files = Get-ChildItem $path -File #Henter alle filene under vår path som er satt lenger oppe
 $files.Remove("logs.txt")
 foreach($file in $files){ #går gjennom alle filene i en løkke
-    if($file -eq $txtFile ){
+    if($file.FullName -eq $txtFile ){
         break
     }
     $fileType = $file.Extension.ToLower() #Henter Extenitonen på filen den går gjennom nå og lagrer den i en variabel
