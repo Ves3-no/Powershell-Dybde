@@ -17,7 +17,6 @@ while($true){
     } else {
         $timesInARow++
         $faliures++
-
     }
     
     Write-Host "`n============== Network ==============`n" -ForegroundColor Blue
