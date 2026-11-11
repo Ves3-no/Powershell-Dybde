@@ -20,7 +20,8 @@ function Add-Ansatt {
         [string]$Role,
         [string]$PhoneNumber,
         [string]$Adress,
-        [string]$Group
+        [string]$Group,
+        [string]$Mail
     )
     $ID = Find-Id
     if(Test-Path $path){
@@ -35,6 +36,7 @@ function Add-Ansatt {
         PhoneNumber = $PhoneNumber
         Adress = $Adress
         Group = $Group
+        Mail = $Mail
     }
     $AddAnsatte.Add($NyAnsatt)
     Write-Host "Opprettet ansatt $($NyAnsatt.Name), med id: $($NyAnsatt.ID)" -ForegroundColor Green
@@ -47,19 +49,25 @@ function Get-Ansatt{
         [int]$ID = $false,
         [string]$Name = $false,
         [string]$PhoneNumber = $false,
-        [string]$Group = $false
+        [string]$Group = $false,
+        [string]$Role = $false,
+        [string]$Mail = $false
     )
     if(Test-Path $path){
         $GetAnsatte = [System.Collections.ArrayList]@(Get-Content -Path $path -Raw | ConvertFrom-Json)
     }   
     if(-not($Name -eq $false)){
-        $GetAnsatte.Where({$_.Name -eq $Name})
+        $GetAnsatte.Where({$_.Name.ToLower() -like "*$Name*"})
     } elseif(-not($ID -eq $false)){
         $GetAnsatte.Where({$_.ID -eq $ID})
     } elseif(-not($PhoneNumber -eq $false)){
-        $GetAnsatte.Where({$_.PhoneNumber -eq $PhoneNumber})
+        $GetAnsatte.Where({$_.PhoneNumber -like "*$PhoneNumber*"})
     } elseif(-not($Group -eq $false)){
-        $GetAnsatte.Where({$_.Group -like "*$Group*"})
+        $GetAnsatte.Where({$_.Group.ToLower() -like "*$Group*"})
+    } elseif(-not($Role -eq $false)){
+        $GetAnsatte.Where({$_.Group.ToLower() -like "*$Role*"})
+    } elseif(-not($Mail -eq $false)){
+        $GetAnsatte.Where({$_.Group.ToLower() -like "*$Mail*"})
     } else{
         $GetAnsatte
     }
@@ -96,7 +104,9 @@ function Edit-Ansatt{
         [string]$Role = "False",
         [string]$PhoneNumber =  "False",
         [string]$Adress =  "False",
-        [string]$Group =  "False"
+        [string]$Group =  "False",
+        [string]$Mail = "False"
+        
     )
     if(Test-Path $path){
         $EditAnsatte = [System.Collections.ArrayList]@(Get-Content -Path $path -Raw | ConvertFrom-Json)
@@ -110,6 +120,7 @@ function Edit-Ansatt{
         $target.PhoneNumber = $PhoneNumber -eq $false ? $target.PhoneNumber : $PhoneNumber
         $target.Adress = $Adress -eq  "False" ? $target.Adress : $Adress
         $target.Group = $Group -eq  "False" ? $target.Group : $Group
+        $target.Mail = $Mail -eq  "False" ? $target.Mail : $Mail
 
         $EditAnsatte | ConvertTo-Json -Depth 10 | Set-Content -Path $path
 

@@ -13,8 +13,8 @@ Add-Type -AssemblyName PresentationFramework
 while ($true) {
     Write-Host "`n------------------------------------" -ForegroundColor Blue
     $count = 0
-    $test_1 = Test-Connection -TargetName $ip
-    foreach($test in $test_1){
+    $test = Test-Connection -TargetName $ip
+    foreach($test in $test){
         if($test.Status -eq "Success"){
             Write-Host "`nPing number $($test.Ping) has a status off $($test.Status)" -ForegroundColor Green
         } else{
@@ -30,7 +30,7 @@ while ($true) {
 
             Start-Sleep -Milliseconds (6*$minutes)
 
-            Restart-NetAdapter -Name $type -Confirm:$false
+            Restart-NetAdapter -Name $type -Confirm:$false -WhatIf
             
             Start-Sleep -Seconds (60*3)
         } elseif($timesInARow -gt 2){
